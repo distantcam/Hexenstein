@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+
+    <CurrentVersion Condition=" '$(CurrentVersion)' == '' ">0.1.0</CurrentVersion>
+    <Company Condition=" '$(Company)' == '' ">Cameron MacFarland</Company>
+    <BuildNumber Condition=" '$(BuildNumber)' == '' ">0</BuildNumber>
+    <AssemblyConfig></AssemblyConfig>
+
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">$(MSBuildProjectDirectory)..\..\..\</SolutionDir>
+
+    <SafeBuildNumber>$(BuildNumber)</SafeBuildNumber>
+    <SafeBuildNumber Condition=" '$(SafeBuildNumber)' == '' ">0</SafeBuildNumber>
+
+    <ApplicationVersion>$(CurrentVersion).$(SafeBuildNumber)</ApplicationVersion>
+
+    <BuildDependsOn>
+      GenerateCommonAssemblyInfo;
+      $(BuildDependsOn);
+    </BuildDependsOn>
+  </PropertyGroup>
+
+  <Target Name="GenerateCommonAssemblyInfo">
+    <PropertyGroup>
+      <SafeBuildNumber>$(BuildNumber)</SafeBuildNumber>
+      <SafeBuildNumber Condition=" '$(SafeBuildNumber)' == '' ">0</SafeBuildNumber>
+      <AssemblyConfig Condition=" '$(AssemblyConfig)' != '' ">-$(AssemblyConfig)</AssemblyConfig>
+      <BuildNumber Condition=" '$(AssemblyConfig)' != '' And '$(BuildNumber)' == '0' "></BuildNumber>
+      <BuildNumber Condition=" '$(AssemblyConfig)' == '' And '$(BuildNumber)' != '' ">.$(BuildNumber)</BuildNumber>
+    </PropertyGroup>
+
+    <Time>
+      <Output TaskParameter="Year" PropertyName="Year" />
+    </Time>
+    <AssemblyInfo
+      CodeLanguage="CS"
+      OutputFile="$(SolutionDir)CommonAssemblyInfo.cs"
+      AssemblyCompany="$(Company)"
+      AssemblyCopyright="Copyright © $(Company) $(Year)"
+      AssemblyTrademark=""
+      AssemblyConfiguration="$(AssemblyConfig)"
+      AssemblyVersion="$(CurrentVersion).$(SafeBuildNumber)"
+      AssemblyFileVersion="$(CurrentVersion).$(SafeBuildNumber)"
+      AssemblyInformationalVersion="$(CurrentVersion)$(AssemblyConfig)$(BuildNumber)"
+    />
+  </Target>
+</Project>
