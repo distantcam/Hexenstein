@@ -20,8 +20,7 @@
         </HelixToolkit:HelixViewport3D>
 
         <StackPanel>
-            <TextBox Text="{Binding Gap}" />
-            <TextBox Text="{Binding Braces}" />
+            <TextBox Text="{Binding Value}" />
         </StackPanel>
     </Grid>
 </UserControl>
