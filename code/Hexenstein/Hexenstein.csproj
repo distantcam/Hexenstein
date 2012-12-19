@@ -49,6 +49,9 @@
     <Reference Include="Conventional">
       <HintPath>..\packages\Conventional.2.0.0.34\lib\net40\Conventional.dll</HintPath>
     </Reference>
+    <Reference Include="HelixToolkit.Wpf">
+      <HintPath>..\packages\HelixToolkit.2012.4.21.1\lib\NET40\HelixToolkit.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.12-beta\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
     </Reference>
@@ -161,11 +164,19 @@
       <DependentUpon>ControlPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\ControlPanel\ControlPanelViewModel.cs" />
+    <Compile Include="UI\HexyWorld\HexyWorldViewModel.cs" />
+    <Compile Include="UI\HexyWorld\HexyWorldView.xaml.cs">
+      <DependentUpon>HexyWorldView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Shell\ShellViewModel.cs" />
     <Compile Include="UI\Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
     <Page Include="UI\ControlPanel\ControlPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\HexyWorld\HexyWorldView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

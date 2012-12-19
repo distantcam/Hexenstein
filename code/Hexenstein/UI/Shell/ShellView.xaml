@@ -12,5 +12,7 @@
             <ContentControl x:Name="ControlPanel" />
         </Border>
 
+        <ContentControl x:Name="HexyWorld" Grid.Row="1" />
+
     </Grid>
 </Window>
