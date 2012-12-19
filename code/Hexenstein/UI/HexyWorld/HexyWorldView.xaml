@@ -16,8 +16,12 @@
             <ModelVisual3D Content="{Binding Model}" />
 
             <!-- You can also add elements here in the xaml -->
-            <HelixToolkit:GridLinesVisual3D Width="8" Length="8" MinorDistance="1" MajorDistance="1" Thickness="0.01" />
-
+            <HelixToolkit:GridLinesVisual3D Width="200" Length="200" MinorDistance="2" MajorDistance="10" Thickness="0.1" />
         </HelixToolkit:HelixViewport3D>
+
+        <StackPanel>
+            <TextBox Text="{Binding Gap}" />
+            <TextBox Text="{Binding Braces}" />
+        </StackPanel>
     </Grid>
 </UserControl>

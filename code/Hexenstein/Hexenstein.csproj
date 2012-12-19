@@ -168,6 +168,7 @@
     <Compile Include="UI\HexyWorld\HexyWorldView.xaml.cs">
       <DependentUpon>HexyWorldView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\HexyWorld\PartMesh.cs" />
     <Compile Include="UI\Shell\ShellViewModel.cs" />
     <Compile Include="UI\Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -284,7 +285,7 @@
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <Import Project="$(SolutionDir)\Build\MSBuild.Community.Tasks.targets" />
   <Import Project="$(SolutionDir)\Build\GenerateCommonAssemblyInfo.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
@@ -292,5 +293,4 @@
   </Target>
   -->
   <Import Project="$(ProjectDir)\..\Tools\Fody\Fody.targets" />
-  <Import Project="..\packages\Microsoft.Bcl.1.0.11-beta\tools\portable-net40+sl4+win8+wp71\Microsoft.Bcl.targets" />
 </Project>
