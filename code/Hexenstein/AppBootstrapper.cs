@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using Autofac;
 using Caliburn.Micro;
+using Hexenstein.Emulator;
 using Hexenstein.Framework;
 using Hexenstein.Framework.Caliburn;
 using Hexenstein.UI.Shell;
@@ -67,6 +68,8 @@ namespace Hexenstein
             builder.Register<IWindowManager>(c => new WindowManager()).InstancePerLifetimeScope();
 
             builder.Register<IEventAggregator>(c => new RxEventAggregator()).InstancePerLifetimeScope();
+
+            builder.RegisterType<Hexy>().AsSelf().SingleInstance();
 
             Container = builder.Build();
         }

@@ -49,6 +49,15 @@
     <Reference Include="Conventional">
       <HintPath>..\packages\Conventional.2.0.0.34\lib\net40\Conventional.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.12-beta\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.12-beta\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.12-beta\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack">
       <HintPath>..\packages\Windows7APICodePack-Core.1.1.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
@@ -64,20 +73,22 @@
     <Reference Include="PropertyChanging">
       <HintPath>..\packages\PropertyChanging.Fody.1.18.0.0\Lib\NET40\PropertyChanging.dll</HintPath>
     </Reference>
-    <Reference Include="ReactiveUI">
-      <HintPath>..\packages\reactiveui-core.4.1.0\lib\Net40\ReactiveUI.dll</HintPath>
+    <Reference Include="ReactiveUI, Version=4.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\reactiveui-core.4.2.2\lib\Net40\ReactiveUI.dll</HintPath>
     </Reference>
     <Reference Include="ReactiveUI.Blend">
-      <HintPath>..\packages\reactiveui-xaml.4.1.0\lib\Net40\ReactiveUI.Blend.dll</HintPath>
+      <HintPath>..\packages\reactiveui-xaml.4.2.2\lib\Net40\ReactiveUI.Blend.dll</HintPath>
     </Reference>
-    <Reference Include="ReactiveUI.NLog">
-      <HintPath>..\packages\reactiveui-nlog.4.1.0\lib\net40\ReactiveUI.NLog.dll</HintPath>
+    <Reference Include="ReactiveUI.NLog, Version=4.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\reactiveui-nlog.4.2.2\lib\net40\ReactiveUI.NLog.dll</HintPath>
     </Reference>
     <Reference Include="ReactiveUI.Routing">
-      <HintPath>..\packages\reactiveui-xaml.4.1.0\lib\Net40\ReactiveUI.Routing.dll</HintPath>
+      <HintPath>..\packages\reactiveui-xaml.4.2.2\lib\Net40\ReactiveUI.Routing.dll</HintPath>
     </Reference>
     <Reference Include="ReactiveUI.Xaml">
-      <HintPath>..\packages\reactiveui-xaml.4.1.0\lib\Net40\ReactiveUI.Xaml.dll</HintPath>
+      <HintPath>..\packages\reactiveui-xaml.4.2.2\lib\Net40\ReactiveUI.Xaml.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -97,6 +108,12 @@
     <Reference Include="System.Reactive.Windows.Threading">
       <HintPath>..\packages\Rx-Xaml.2.0.21114\lib\Net40\System.Reactive.Windows.Threading.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>..\packages\Microsoft.Bcl.1.0.11-beta\lib\net40\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.1.0.11-beta\lib\net40\System.Threading.Tasks.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.1.4\lib\net40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -111,6 +128,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <None Include="app.config" />
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +136,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Emulator\Hexy.cs" />
     <Compile Include="Framework\AutoAttachmentModule.cs" />
     <Compile Include="Framework\Caliburn\CaliburnMicroNLogShim.cs" />
     <Compile Include="Framework\Caliburn\RxEventAggregator.cs" />
@@ -138,10 +157,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="UI\ControlPanel\ControlPanelView.xaml.cs">
+      <DependentUpon>ControlPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ControlPanel\ControlPanelViewModel.cs" />
     <Compile Include="UI\Shell\ShellViewModel.cs" />
     <Compile Include="UI\Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
+    <Page Include="UI\ControlPanel\ControlPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Shell\ShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -185,4 +212,5 @@
   </Target>
   -->
   <Import Project="$(ProjectDir)\..\Tools\Fody\Fody.targets" />
+  <Import Project="..\packages\Microsoft.Bcl.1.0.11-beta\tools\portable-net40+sl4+win8+wp71\Microsoft.Bcl.targets" />
 </Project>
