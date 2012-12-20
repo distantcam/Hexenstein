@@ -13,6 +13,13 @@ namespace Hexenstein.Emulator
         private bool servoCount;
         private bool posCount;
 
+        private int[] servos;
+
+        public ServotorEmulator()
+        {
+            servos = new int[32];
+        }
+
         public void ConnectToPort(string portName)
         {
             if (port != null)
@@ -28,6 +35,10 @@ namespace Hexenstein.Emulator
 
             port.Open();
         }
+
+        public int this[int index] { get { return servos[index]; } }
+
+        public event EventHandler Update;
 
         private void PortDataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -105,11 +116,17 @@ namespace Hexenstein.Emulator
                     number = number * 10 + (data - '0');
                 }
             }
+
+            var handler = this.Update;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
         }
 
         private void SetServo(int servo, int value)
         {
-            Debug.WriteLine("Servo: {0} Value: {1}", servo, value);
+            servos[servo] = value;
+
+            Debug.WriteLine("Servo: {0} Value {1}", servo, value);
         }
 
         #region IDisposable Members

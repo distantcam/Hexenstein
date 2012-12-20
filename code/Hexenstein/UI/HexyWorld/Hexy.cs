@@ -1,3 +1,4 @@
+using System;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using HelixToolkit.Wpf;
@@ -74,6 +75,59 @@ namespace Hexenstein.UI.HexyWorld
             transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), -140), new Point3D(-HipOffsetX1, HipOffsetY1, 0)));
 
             hips[5].Transform = transform;
+        }
+
+        public void SetHip(int hip, int value)
+        {
+            if (hip < 0 || hip > 5)
+                throw new IndexOutOfRangeException();
+
+            var angle = (value - 1500.0) / 1000.0 * 90.0;
+            var offsetX = 0.0;
+            var offsetY = 0.0;
+
+            switch (hip)
+            {
+                case 0:
+                    offsetX = HipOffsetX1;
+                    offsetY = HipOffsetY1;
+                    angle = 140 + angle;
+                    break;
+                case 1:
+                    offsetX = HipOffsetX2;
+                    offsetY = HipOffsetY2;
+                    angle = 90 + angle;
+                    break;
+                case 2:
+                    offsetX = HipOffsetX1;
+                    offsetY = -HipOffsetY1;
+                    angle = 40 + angle;
+                    break;
+                case 3:
+                    offsetX = -HipOffsetX1;
+                    offsetY = -HipOffsetY1;
+                    angle = -40 + angle;
+                    break;
+                case 4:
+                    offsetX = -HipOffsetX2;
+                    offsetY = HipOffsetY2;
+                    angle = -90 + angle;
+                    break;
+                case 5:
+                    offsetX = -HipOffsetX1;
+                    offsetY = HipOffsetY1;
+                    angle = -140 + angle;
+                    break;
+            }
+
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                var transform = new Transform3DGroup();
+                transform.Children.Add(new TranslateTransform3D(new Vector3D(offsetX, offsetY, 0)));
+                transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), angle), new Point3D(offsetX, offsetY, 0)));
+
+                hips[hip].Transform = transform;
+            }));
         }
 
         private void CreateBody()
