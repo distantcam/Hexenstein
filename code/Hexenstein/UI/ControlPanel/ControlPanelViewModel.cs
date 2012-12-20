@@ -8,9 +8,9 @@ namespace Hexenstein.UI.ControlPanel
 {
     internal class ControlPanelViewModel : ReactiveScreen
     {
-        private readonly Hexy hexy;
+        private readonly ServotorEmulator hexy;
 
-        public ControlPanelViewModel(Hexy hexy)
+        public ControlPanelViewModel(ServotorEmulator hexy)
         {
             this.hexy = hexy;
             string[] portName = SerialPort.GetPortNames();

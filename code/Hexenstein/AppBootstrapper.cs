@@ -69,7 +69,7 @@ namespace Hexenstein
 
             builder.Register<IEventAggregator>(c => new RxEventAggregator()).InstancePerLifetimeScope();
 
-            builder.RegisterType<Hexy>().AsSelf().SingleInstance();
+            builder.RegisterType<ServotorEmulator>().AsSelf().SingleInstance();
 
             Container = builder.Build();
         }

@@ -4,7 +4,7 @@ using System.IO.Ports;
 
 namespace Hexenstein.Emulator
 {
-    internal class Hexy : IDisposable
+    internal class ServotorEmulator : IDisposable
     {
         private SerialPort port;
         private int number;
@@ -116,7 +116,7 @@ namespace Hexenstein.Emulator
 
         private bool disposed;
 
-        ~Hexy()
+        ~ServotorEmulator()
         {
             Dispose(false);
         }

@@ -139,7 +139,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Emulator\Hexy.cs" />
+    <Compile Include="Emulator\ServotorEmulator.cs" />
     <Compile Include="Framework\AutoAttachmentModule.cs" />
     <Compile Include="Framework\Caliburn\CaliburnMicroNLogShim.cs" />
     <Compile Include="Framework\Caliburn\RxEventAggregator.cs" />
@@ -164,6 +164,7 @@
       <DependentUpon>ControlPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\ControlPanel\ControlPanelViewModel.cs" />
+    <Compile Include="UI\HexyWorld\Hexy.cs" />
     <Compile Include="UI\HexyWorld\HexyWorldViewModel.cs" />
     <Compile Include="UI\HexyWorld\HexyWorldView.xaml.cs">
       <DependentUpon>HexyWorldView.xaml</DependentUpon>

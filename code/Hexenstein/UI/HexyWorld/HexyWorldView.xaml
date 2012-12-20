@@ -7,20 +7,15 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <HelixToolkit:HelixViewport3D ZoomExtentsWhenLoaded="True">
-
-            <!-- Remember to add light to the scene -->
-            <HelixToolkit:SunLight />
-
-            <!-- The content of this visual is defined in MainViewModel.cs -->
-            <ModelVisual3D Content="{Binding Model}" />
-
-            <!-- You can also add elements here in the xaml -->
-            <HelixToolkit:GridLinesVisual3D Width="200" Length="200" MinorDistance="2" MajorDistance="10" Thickness="0.1" />
+        <HelixToolkit:HelixViewport3D
+            ZoomExtentsWhenLoaded="True"
+            ItemsSource="{Binding Visuals}"
+        >
         </HelixToolkit:HelixViewport3D>
 
         <StackPanel>
             <TextBox Text="{Binding Value}" />
+            <Slider Value="{Binding Value}" TickFrequency="0.1" IsSnapToTickEnabled="True" Maximum="30" Minimum="-30" />
         </StackPanel>
     </Grid>
 </UserControl>
