@@ -6,6 +6,11 @@ namespace Hexenstein.UI.HexyWorld
 {
     public class Hexy : ModelVisual3D
     {
+        private const double HipOffsetX1 = 64.3;
+        private const double HipOffsetX2 = 100;
+        private const double HipOffsetY1 = 76.6;
+        private const double HipOffsetY2 = 0;
+
         private PartMesh batteryBottom = new PartMesh(@"Models\Battery_bottom.STL");
         private PartMesh boardPlate = new PartMesh(@"Models\Board plate.STL");
         private PartMesh bodyBrace = new PartMesh(@"Models\Body_brace.STL");
@@ -19,15 +24,56 @@ namespace Hexenstein.UI.HexyWorld
         private PartMesh servo = new PartMesh(@"Models\Servo.STL");
 
         private ModelVisual3D body;
-        private ModelVisual3D leg;
+        private ModelVisual3D[] hips;
 
         public Hexy()
         {
             CreateBody();
 
-            leg = CreateLeg();
+            this.Children.Add(body);
 
-            this.Children.Add(leg);
+            hips = new ModelVisual3D[6];
+            for (int i = 0; i < hips.Length; i++)
+            {
+                hips[i] = CreateHip();
+                this.Children.Add(hips[i]);
+            }
+
+            var transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(HipOffsetX1, HipOffsetY1, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 140), new Point3D(HipOffsetX1, HipOffsetY1, 0)));
+
+            hips[0].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(HipOffsetX2, HipOffsetY2, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 90), new Point3D(HipOffsetX2, HipOffsetY2, 0)));
+
+            hips[1].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(HipOffsetX1, -HipOffsetY1, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 40), new Point3D(HipOffsetX1, -HipOffsetY1, 0)));
+
+            hips[2].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(-HipOffsetX1, -HipOffsetY1, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), -40), new Point3D(-HipOffsetX1, -HipOffsetY1, 0)));
+
+            hips[3].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(-HipOffsetX2, HipOffsetY2, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), -90), new Point3D(-HipOffsetX2, HipOffsetY2, 0)));
+
+            hips[4].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(-HipOffsetX1, HipOffsetY1, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), -140), new Point3D(-HipOffsetX1, HipOffsetY1, 0)));
+
+            hips[5].Transform = transform;
         }
 
         private void CreateBody()
@@ -76,7 +122,7 @@ namespace Hexenstein.UI.HexyWorld
             body = new ModelVisual3D() { Content = modelGroup };
         }
 
-        private ModelVisual3D CreateLeg()
+        private ModelVisual3D CreateHip()
         {
             var modelGroup = new Model3DGroup();
 
@@ -122,7 +168,13 @@ namespace Hexenstein.UI.HexyWorld
 
         public void SetValue(double value)
         {
-            var modelGroup = (Model3DGroup)leg.Content;
+            //var modelGroup = (Model3DGroup)hip.Content;
+
+            //var transform = new Transform3DGroup();
+            //transform.Children.Add(new TranslateTransform3D(new Vector3D(value, 0, 0)));
+            //transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), value + 60), new Point3D(64.3, 76.6, 0)));
+
+            //hips[1].Transform = transform;
         }
     }
 }

@@ -15,7 +15,7 @@
 
         <StackPanel>
             <TextBox Text="{Binding Value}" />
-            <Slider Value="{Binding Value}" TickFrequency="0.1" IsSnapToTickEnabled="True" Maximum="30" Minimum="-30" />
+            <Slider Value="{Binding Value}" TickFrequency="0.1" IsSnapToTickEnabled="True" Maximum="100" Minimum="-100" />
         </StackPanel>
     </Grid>
 </UserControl>
