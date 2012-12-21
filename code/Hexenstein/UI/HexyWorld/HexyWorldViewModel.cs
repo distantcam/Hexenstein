@@ -29,21 +29,9 @@ namespace Hexenstein.UI.HexyWorld
 
         private void servotor_Update(object sender, EventArgs e)
         {
-            hexy.SetHip(0, servotor[24]);
-            hexy.SetHip(1, servotor[20]);
-            hexy.SetHip(2, servotor[16]);
-            hexy.SetHip(3, servotor[15]);
-            hexy.SetHip(4, servotor[11]);
-            hexy.SetHip(5, servotor[7]);
+            hexy.Update(servotor.Servos);
         }
 
         public ReactiveCollection<Visual3D> Visuals { get; set; }
-
-        public double Value { get; set; }
-
-        private void OnValueChanged()
-        {
-            hexy.SetValue(Value);
-        }
     }
 }

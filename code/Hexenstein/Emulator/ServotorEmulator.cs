@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO.Ports;
 
 namespace Hexenstein.Emulator
@@ -37,6 +36,8 @@ namespace Hexenstein.Emulator
         }
 
         public int this[int index] { get { return servos[index]; } }
+
+        public int[] Servos { get { return servos; } }
 
         public event EventHandler Update;
 
@@ -126,7 +127,7 @@ namespace Hexenstein.Emulator
         {
             servos[servo] = value;
 
-            Debug.WriteLine("Servo: {0} Value {1}", servo, value);
+            //Debug.WriteLine("Servo: {0} Value {1}", servo, value);
         }
 
         #region IDisposable Members

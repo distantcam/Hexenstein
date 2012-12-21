@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using HelixToolkit.Wpf;
@@ -11,126 +12,72 @@ namespace Hexenstein.UI.HexyWorld
         private const double HipOffsetX2 = 100;
         private const double HipOffsetY1 = 76.6;
         private const double HipOffsetY2 = 0;
+        private const double ThighOffset = -50.4;
+        private const double ThighRotate = -26;
+        private const double CalfOffset = -58.4;
+        private const double CalfRotate = -24.5;
 
         private PartMesh batteryBottom = new PartMesh(@"Models\Battery_bottom.STL");
         private PartMesh boardPlate = new PartMesh(@"Models\Board plate.STL");
         private PartMesh bodyBrace = new PartMesh(@"Models\Body_brace.STL");
         private PartMesh bodyHorn = new PartMesh(@"Models\Body_horn.STL");
         private PartMesh bodyPivot = new PartMesh(@"Models\Body_pivot.STL");
+        private PartMesh calfHorn = new PartMesh(@"Models\Calf_horn.STL");
+        private PartMesh calfPivot = new PartMesh(@"Models\Calf_pivot.STL");
+        private PartMesh foot = new PartMesh(@"Models\Foot.STL");
         private PartMesh hipBack = new PartMesh(@"Models\Hip_back_side.STL");
         private PartMesh hipHorn = new PartMesh(@"Models\Hip_horn_side.STL");
         private PartMesh hipPivot = new PartMesh(@"Models\Hip_pivot_side.STL");
         private PartMesh hipTop = new PartMesh(@"Models\Hip_top_side.STL");
         private PartMesh namePlate = new PartMesh(@"Models\Name_plate.STL");
         private PartMesh servo = new PartMesh(@"Models\Servo.STL");
+        private PartMesh thighBottom = new PartMesh(@"Models\Thigh_bottom.STL");
+        private PartMesh thighMiddle = new PartMesh(@"Models\Thigh_middle.STL");
+        private PartMesh thighTop = new PartMesh(@"Models\Thigh_top.STL");
 
         private ModelVisual3D body;
         private ModelVisual3D[] hips;
+        private ModelVisual3D[] thighs;
+        private ModelVisual3D[] calves;
 
         public Hexy()
         {
-            CreateBody();
-
+            body = CreateBody();
             this.Children.Add(body);
 
             hips = new ModelVisual3D[6];
-            for (int i = 0; i < hips.Length; i++)
+            thighs = new ModelVisual3D[6];
+            calves = new ModelVisual3D[6];
+            for (int i = 0; i < 6; i++)
             {
                 hips[i] = CreateHip();
                 this.Children.Add(hips[i]);
+
+                thighs[i] = CreateThigh();
+                this.Children.Add(thighs[i]);
+
+                calves[i] = CreateCalf();
+                this.Children.Add(calves[i]);
             }
 
-            var transform = new Transform3DGroup();
-            transform.Children.Add(new TranslateTransform3D(new Vector3D(HipOffsetX1, HipOffsetY1, 0)));
-            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 140), new Point3D(HipOffsetX1, HipOffsetY1, 0)));
-
-            hips[0].Transform = transform;
-
-            transform = new Transform3DGroup();
-            transform.Children.Add(new TranslateTransform3D(new Vector3D(HipOffsetX2, HipOffsetY2, 0)));
-            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 90), new Point3D(HipOffsetX2, HipOffsetY2, 0)));
-
-            hips[1].Transform = transform;
-
-            transform = new Transform3DGroup();
-            transform.Children.Add(new TranslateTransform3D(new Vector3D(HipOffsetX1, -HipOffsetY1, 0)));
-            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 40), new Point3D(HipOffsetX1, -HipOffsetY1, 0)));
-
-            hips[2].Transform = transform;
-
-            transform = new Transform3DGroup();
-            transform.Children.Add(new TranslateTransform3D(new Vector3D(-HipOffsetX1, -HipOffsetY1, 0)));
-            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), -40), new Point3D(-HipOffsetX1, -HipOffsetY1, 0)));
-
-            hips[3].Transform = transform;
-
-            transform = new Transform3DGroup();
-            transform.Children.Add(new TranslateTransform3D(new Vector3D(-HipOffsetX2, HipOffsetY2, 0)));
-            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), -90), new Point3D(-HipOffsetX2, HipOffsetY2, 0)));
-
-            hips[4].Transform = transform;
-
-            transform = new Transform3DGroup();
-            transform.Children.Add(new TranslateTransform3D(new Vector3D(-HipOffsetX1, HipOffsetY1, 0)));
-            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), -140), new Point3D(-HipOffsetX1, HipOffsetY1, 0)));
-
-            hips[5].Transform = transform;
+            Update(Enumerable.Repeat(1500, 32).ToArray());
         }
 
-        public void SetHip(int hip, int value)
+        public void Update(int[] servos)
         {
-            if (hip < 0 || hip > 5)
-                throw new IndexOutOfRangeException();
-
-            var angle = (value - 1500.0) / 1000.0 * 90.0;
-            var offsetX = 0.0;
-            var offsetY = 0.0;
-
-            switch (hip)
-            {
-                case 0:
-                    offsetX = HipOffsetX1;
-                    offsetY = HipOffsetY1;
-                    angle = 140 + angle;
-                    break;
-                case 1:
-                    offsetX = HipOffsetX2;
-                    offsetY = HipOffsetY2;
-                    angle = 90 + angle;
-                    break;
-                case 2:
-                    offsetX = HipOffsetX1;
-                    offsetY = -HipOffsetY1;
-                    angle = 40 + angle;
-                    break;
-                case 3:
-                    offsetX = -HipOffsetX1;
-                    offsetY = -HipOffsetY1;
-                    angle = -40 + angle;
-                    break;
-                case 4:
-                    offsetX = -HipOffsetX2;
-                    offsetY = HipOffsetY2;
-                    angle = -90 + angle;
-                    break;
-                case 5:
-                    offsetX = -HipOffsetX1;
-                    offsetY = HipOffsetY1;
-                    angle = -140 + angle;
-                    break;
-            }
-
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                var transform = new Transform3DGroup();
-                transform.Children.Add(new TranslateTransform3D(new Vector3D(offsetX, offsetY, 0)));
-                transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), angle), new Point3D(offsetX, offsetY, 0)));
+                var angles = servos.Select(s => (s - 1500.0) / 1000.0 * 90.0).ToArray();
 
-                hips[hip].Transform = transform;
+                UpdateHips(angles);
+
+                UpdateThighs(angles);
+
+                UpdateCalves(angles);
             }));
         }
 
-        private void CreateBody()
+        private ModelVisual3D CreateBody()
         {
             var modelGroup = new Model3DGroup();
 
@@ -173,7 +120,7 @@ namespace Hexenstein.UI.HexyWorld
 
             modelGroup.Children[6].Transform = transform;
 
-            body = new ModelVisual3D() { Content = modelGroup };
+            return new ModelVisual3D() { Content = modelGroup };
         }
 
         private ModelVisual3D CreateHip()
@@ -220,15 +167,256 @@ namespace Hexenstein.UI.HexyWorld
             return new ModelVisual3D() { Content = modelGroup };
         }
 
-        public void SetValue(double value)
+        private ModelVisual3D CreateThigh()
         {
-            //var modelGroup = (Model3DGroup)hip.Content;
+            var modelGroup = new Model3DGroup();
 
-            //var transform = new Transform3DGroup();
-            //transform.Children.Add(new TranslateTransform3D(new Vector3D(value, 0, 0)));
-            //transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), value + 60), new Point3D(64.3, 76.6, 0)));
+            var outsideMaterial = MaterialHelper.CreateMaterial(Colors.Blue);
+            var insideMaterial = MaterialHelper.CreateMaterial(Colors.Yellow);
+            var debugMaterial = MaterialHelper.CreateMaterial(Colors.Red);
 
-            //hips[1].Transform = transform;
+            modelGroup.Children.Add(new GeometryModel3D { Geometry = thighMiddle.Mesh, Material = outsideMaterial, BackMaterial = insideMaterial });
+            modelGroup.Children.Add(new GeometryModel3D { Geometry = thighMiddle.Mesh, Material = outsideMaterial, BackMaterial = insideMaterial });
+            modelGroup.Children.Add(new GeometryModel3D { Geometry = thighTop.Mesh, Material = outsideMaterial, BackMaterial = insideMaterial });
+            modelGroup.Children.Add(new GeometryModel3D { Geometry = thighBottom.Mesh, Material = outsideMaterial, BackMaterial = insideMaterial });
+            modelGroup.Children.Add(new GeometryModel3D { Geometry = servo.Mesh, Material = debugMaterial, BackMaterial = insideMaterial });
+            modelGroup.Children.Add(new GeometryModel3D { Geometry = servo.Mesh, Material = debugMaterial, BackMaterial = insideMaterial });
+
+            var transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(-thighMiddle.Centre.ToVector3D()));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 90)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), 90)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, -4.5, 0)));
+
+            modelGroup.Children[0].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(-thighMiddle.Centre.ToVector3D()));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 90)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), 90)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, 4.5, 0)));
+
+            modelGroup.Children[1].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(-thighTop.Centre.ToVector3D()));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 1, 0), 90)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(-14.1, 0, 0)));
+
+            modelGroup.Children[2].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(-thighBottom.Centre.ToVector3D()));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 1, 0), 90)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(13.8, 0, 0)));
+
+            modelGroup.Children[3].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(-servo.Centre.ToVector3D()));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 90)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(-4.5, -19, 0)));
+
+            modelGroup.Children[4].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(-servo.Centre.ToVector3D()));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 90)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), 180)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(-4.5, 19, 0)));
+
+            modelGroup.Children[5].Transform = transform;
+
+            return new ModelVisual3D() { Content = modelGroup };
+        }
+
+        private ModelVisual3D CreateCalf()
+        {
+            var modelGroup = new Model3DGroup();
+
+            var outsideMaterial = MaterialHelper.CreateMaterial(Colors.Blue);
+            var insideMaterial = MaterialHelper.CreateMaterial(Colors.Yellow);
+
+            modelGroup.Children.Add(new GeometryModel3D { Geometry = calfPivot.Mesh, Material = outsideMaterial, BackMaterial = insideMaterial });
+            modelGroup.Children.Add(new GeometryModel3D { Geometry = calfHorn.Mesh, Material = outsideMaterial, BackMaterial = insideMaterial });
+            modelGroup.Children.Add(new GeometryModel3D { Geometry = foot.Mesh, Material = outsideMaterial, BackMaterial = insideMaterial });
+
+            var transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(-calfPivot.Centre.ToVector3D()));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 90)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 1, 0), 90)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(23.2, 20.9, 0)));
+
+            modelGroup.Children[0].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(-calfHorn.Centre.ToVector3D()));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 90)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 1, 0), 90)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(-23.2, 20.9, 0)));
+
+            modelGroup.Children[1].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(-foot.Centre.ToVector3D()));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), -90)));
+
+            modelGroup.Children[2].Transform = transform;
+
+            return new ModelVisual3D() { Content = modelGroup };
+        }
+
+        private void UpdateHips(double[] angles)
+        {
+            var transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(HipOffsetX1, HipOffsetY1, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 140 + angles[24]), new Point3D(HipOffsetX1, HipOffsetY1, 0)));
+
+            hips[0].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(HipOffsetX2, HipOffsetY2, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 90 + angles[20]), new Point3D(HipOffsetX2, HipOffsetY2, 0)));
+
+            hips[1].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(HipOffsetX1, -HipOffsetY1, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 40 + angles[16]), new Point3D(HipOffsetX1, -HipOffsetY1, 0)));
+
+            hips[2].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(-HipOffsetX1, -HipOffsetY1, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), -40 + angles[15]), new Point3D(-HipOffsetX1, -HipOffsetY1, 0)));
+
+            hips[3].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(-HipOffsetX2, HipOffsetY2, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), -90 + angles[11]), new Point3D(-HipOffsetX2, HipOffsetY2, 0)));
+
+            hips[4].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(-HipOffsetX1, HipOffsetY1, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), -140 + angles[7]), new Point3D(-HipOffsetX1, HipOffsetY1, 0)));
+
+            hips[5].Transform = transform;
+        }
+
+        private void UpdateThighs(double[] angles)
+        {
+            var transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, ThighOffset, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), angles[25]), new Point3D(0, ThighRotate, 0)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(HipOffsetX1, HipOffsetY1, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 140 + angles[24]), new Point3D(HipOffsetX1, HipOffsetY1, 0)));
+
+            thighs[0].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, ThighOffset, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), angles[21]), new Point3D(0, ThighRotate, 0)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(HipOffsetX2, HipOffsetY2, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 90 + angles[20]), new Point3D(HipOffsetX2, HipOffsetY2, 0)));
+
+            thighs[1].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, ThighOffset, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), angles[17]), new Point3D(0, ThighRotate, 0)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(HipOffsetX1, -HipOffsetY1, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 40 + angles[16]), new Point3D(HipOffsetX1, -HipOffsetY1, 0)));
+
+            thighs[2].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, ThighOffset, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), angles[14]), new Point3D(0, ThighRotate, 0)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(-HipOffsetX1, -HipOffsetY1, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), -40 + angles[15]), new Point3D(-HipOffsetX1, -HipOffsetY1, 0)));
+
+            thighs[3].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, ThighOffset, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), angles[10]), new Point3D(0, ThighRotate, 0)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(-HipOffsetX2, HipOffsetY2, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), -90 + angles[11]), new Point3D(-HipOffsetX2, HipOffsetY2, 0)));
+
+            thighs[4].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, ThighOffset, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), angles[6]), new Point3D(0, ThighRotate, 0)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(-HipOffsetX1, HipOffsetY1, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), -140 + angles[7]), new Point3D(-HipOffsetX1, HipOffsetY1, 0)));
+
+            thighs[5].Transform = transform;
+        }
+
+        private void UpdateCalves(double[] angles)
+        {
+            var transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, CalfOffset, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), -angles[26]), new Point3D(0, CalfRotate, 0)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, ThighOffset, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), angles[25]), new Point3D(0, ThighRotate, 0)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(HipOffsetX1, HipOffsetY1, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 140 + angles[24]), new Point3D(HipOffsetX1, HipOffsetY1, 0)));
+
+            calves[0].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, CalfOffset, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), -angles[22]), new Point3D(0, CalfRotate, 0)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, ThighOffset, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), angles[21]), new Point3D(0, ThighRotate, 0)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(HipOffsetX2, HipOffsetY2, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 90 + angles[20]), new Point3D(HipOffsetX2, HipOffsetY2, 0)));
+
+            calves[1].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, CalfOffset, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), -angles[18]), new Point3D(0, CalfRotate, 0)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, ThighOffset, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), angles[17]), new Point3D(0, ThighRotate, 0)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(HipOffsetX1, -HipOffsetY1, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), 40 + angles[16]), new Point3D(HipOffsetX1, -HipOffsetY1, 0)));
+
+            calves[2].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, CalfOffset, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), -angles[13]), new Point3D(0, CalfRotate, 0)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, ThighOffset, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), angles[14]), new Point3D(0, ThighRotate, 0)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(-HipOffsetX1, -HipOffsetY1, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), -40 + angles[15]), new Point3D(-HipOffsetX1, -HipOffsetY1, 0)));
+
+            calves[3].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, CalfOffset, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), -angles[9]), new Point3D(0, CalfRotate, 0)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, ThighOffset, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), angles[10]), new Point3D(0, ThighRotate, 0)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(-HipOffsetX2, HipOffsetY2, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), -90 + angles[11]), new Point3D(-HipOffsetX2, HipOffsetY2, 0)));
+
+            calves[4].Transform = transform;
+
+            transform = new Transform3DGroup();
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, CalfOffset, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), -angles[5]), new Point3D(0, CalfRotate, 0)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(0, ThighOffset, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), angles[6]), new Point3D(0, ThighRotate, 0)));
+            transform.Children.Add(new TranslateTransform3D(new Vector3D(-HipOffsetX1, HipOffsetY1, 0)));
+            transform.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 0, 1), -140 + angles[7]), new Point3D(-HipOffsetX1, HipOffsetY1, 0)));
+
+            calves[5].Transform = transform;
         }
     }
 }
