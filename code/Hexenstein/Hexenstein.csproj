@@ -75,7 +75,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <None Include="app.config" />
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -140,75 +139,29 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Models\Battery_bottom.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Battery_bottom_standoff.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Board plate.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Body_brace.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Body_horn.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Body_pivot.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Calf_horn.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Calf_pivot.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Face_plate.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Foot.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Hip_back_side.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Hip_horn_side.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Hip_pivot_side.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Hip_top_side.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Micro Servo Horn Arm.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Name_plate.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Neck_bottom.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Neck_brace.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Neck_top.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Servo.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Thigh_bottom.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Thigh_middle.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Models\Thigh_top.STL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <EmbeddedResource Include="Models\Battery_bottom.STL" />
+    <EmbeddedResource Include="Models\Battery_bottom_standoff.STL" />
+    <EmbeddedResource Include="Models\Board plate.STL" />
+    <EmbeddedResource Include="Models\Body_brace.STL" />
+    <EmbeddedResource Include="Models\Body_horn.STL" />
+    <EmbeddedResource Include="Models\Body_pivot.STL" />
+    <EmbeddedResource Include="Models\Calf_horn.STL" />
+    <EmbeddedResource Include="Models\Calf_pivot.STL" />
+    <EmbeddedResource Include="Models\Face_plate.STL" />
+    <EmbeddedResource Include="Models\Foot.STL" />
+    <EmbeddedResource Include="Models\Hip_back_side.STL" />
+    <EmbeddedResource Include="Models\Hip_horn_side.STL" />
+    <EmbeddedResource Include="Models\Hip_pivot_side.STL" />
+    <EmbeddedResource Include="Models\Hip_top_side.STL" />
+    <EmbeddedResource Include="Models\Micro Servo Horn Arm.STL" />
+    <EmbeddedResource Include="Models\Name_plate.STL" />
+    <EmbeddedResource Include="Models\Neck_bottom.STL" />
+    <EmbeddedResource Include="Models\Neck_brace.STL" />
+    <EmbeddedResource Include="Models\Neck_top.STL" />
+    <EmbeddedResource Include="Models\Servo.STL" />
+    <EmbeddedResource Include="Models\Thigh_bottom.STL" />
+    <EmbeddedResource Include="Models\Thigh_middle.STL" />
+    <EmbeddedResource Include="Models\Thigh_top.STL" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

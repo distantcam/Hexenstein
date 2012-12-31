@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Reflection;
 using System.Windows.Media.Media3D;
 using HelixToolkit.Wpf;
 
@@ -7,6 +8,8 @@ namespace Hexenstein.UI.HexyWorld
 {
     internal class PartMesh
     {
+        private static Assembly modelAssembly = Assembly.GetAssembly(typeof(PartMesh));
+
         public PartMesh(string filename)
         {
             var meshBuilder = new MeshBuilder(false, false);
@@ -14,7 +17,7 @@ namespace Hexenstein.UI.HexyWorld
             var min = new Point3D(double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity);
             var max = new Point3D(double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity);
 
-            using (var stream = new FileStream(filename, FileMode.Open))
+            using (var stream = modelAssembly.GetManifestResourceStream("Hexenstein.Models." + filename))
             using (var reader = new BinaryReader(stream))
             {
                 var header = reader.ReadBytes(80);
