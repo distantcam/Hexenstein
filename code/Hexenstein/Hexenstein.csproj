@@ -52,71 +52,15 @@
     <Reference Include="HelixToolkit.Wpf">
       <HintPath>..\packages\HelixToolkit.2012.4.21.1\lib\NET40\HelixToolkit.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Threading.Tasks">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.12-beta\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Threading.Tasks.Extensions">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.12-beta\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.12-beta\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack">
-      <HintPath>..\packages\Windows7APICodePack-Core.1.1.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
-      <HintPath>..\packages\Windows7APICodePack-Shell.1.1.0.0\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog">
-      <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
-    </Reference>
     <Reference Include="PropertyChanged">
       <HintPath>..\packages\PropertyChanged.Fody.1.32.0.0\Lib\NET40\PropertyChanged.dll</HintPath>
     </Reference>
     <Reference Include="PropertyChanging">
       <HintPath>..\packages\PropertyChanging.Fody.1.18.0.0\Lib\NET40\PropertyChanging.dll</HintPath>
     </Reference>
-    <Reference Include="ReactiveUI, Version=4.2.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\reactiveui-core.4.2.2\lib\Net40\ReactiveUI.dll</HintPath>
-    </Reference>
-    <Reference Include="ReactiveUI.Blend">
-      <HintPath>..\packages\reactiveui-xaml.4.2.2\lib\Net40\ReactiveUI.Blend.dll</HintPath>
-    </Reference>
-    <Reference Include="ReactiveUI.NLog, Version=4.2.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\reactiveui-nlog.4.2.2\lib\net40\ReactiveUI.NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="ReactiveUI.Routing">
-      <HintPath>..\packages\reactiveui-xaml.4.2.2\lib\Net40\ReactiveUI.Routing.dll</HintPath>
-    </Reference>
-    <Reference Include="ReactiveUI.Xaml">
-      <HintPath>..\packages\reactiveui-xaml.4.2.2\lib\Net40\ReactiveUI.Xaml.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Reactive.Core">
-      <HintPath>..\packages\Rx-Core.2.0.21114\lib\Net40\System.Reactive.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Interfaces">
-      <HintPath>..\packages\Rx-Interfaces.2.0.21114\lib\Net40\System.Reactive.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Linq">
-      <HintPath>..\packages\Rx-Linq.2.0.21114\lib\Net40\System.Reactive.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.PlatformServices">
-      <HintPath>..\packages\Rx-PlatformServices.2.0.21114\lib\Net40\System.Reactive.PlatformServices.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Windows.Threading">
-      <HintPath>..\packages\Rx-Xaml.2.0.21114\lib\Net40\System.Reactive.Windows.Threading.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime">
-      <HintPath>..\packages\Microsoft.Bcl.1.0.11-beta\lib\net40\System.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks">
-      <HintPath>..\packages\Microsoft.Bcl.1.0.11-beta\lib\net40\System.Threading.Tasks.dll</HintPath>
-    </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.1.4\lib\net40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -141,17 +85,7 @@
     </ApplicationDefinition>
     <Compile Include="Emulator\ServotorEmulator.cs" />
     <Compile Include="Framework\AutoAttachmentModule.cs" />
-    <Compile Include="Framework\Caliburn\CaliburnMicroNLogShim.cs" />
-    <Compile Include="Framework\Caliburn\RxEventAggregator.cs" />
     <Compile Include="Framework\Conventions.cs" />
-    <Compile Include="Framework\Reactive\ReactiveConductor.Collection.AllActive.cs" />
-    <Compile Include="Framework\Reactive\ReactiveConductor.Collection.OneActive.cs" />
-    <Compile Include="Framework\Reactive\ReactiveConductor.cs" />
-    <Compile Include="Framework\Reactive\ReactiveConductorBase.cs" />
-    <Compile Include="Framework\Reactive\ReactiveConductorBaseWithActiveItem.cs" />
-    <Compile Include="Framework\Reactive\ReactiveScreen.cs" />
-    <Compile Include="Framework\Reactive\ReactiveViewAware.cs" />
-    <Compile Include="Framework\Services\FileDialogs.cs" />
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>

@@ -3,7 +3,7 @@
 
   <PropertyGroup>
 
-    <CurrentVersion Condition=" '$(CurrentVersion)' == '' ">0.1.0</CurrentVersion>
+    <CurrentVersion Condition=" '$(CurrentVersion)' == '' ">1.0.0</CurrentVersion>
     <Company Condition=" '$(Company)' == '' ">Cameron MacFarland</Company>
     <BuildNumber Condition=" '$(BuildNumber)' == '' ">0</BuildNumber>
     <AssemblyConfig></AssemblyConfig>

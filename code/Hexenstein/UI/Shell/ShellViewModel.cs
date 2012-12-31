@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
-using Hexenstein.Framework.Reactive;
+using Caliburn.Micro;
 using Hexenstein.UI.ControlPanel;
 using Hexenstein.UI.HexyWorld;
 
 namespace Hexenstein.UI.Shell
 {
-    internal class ShellViewModel : ReactiveScreen
+    internal class ShellViewModel : Screen
     {
         public ShellViewModel(ControlPanelViewModel controlPanel, HexyWorldViewModel hexyWorld)
         {

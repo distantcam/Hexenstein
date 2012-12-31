@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Media.Media3D;
+using Caliburn.Micro;
 using HelixToolkit.Wpf;
 using Hexenstein.Emulator;
-using Hexenstein.Framework.Reactive;
-using ReactiveUI;
 
 namespace Hexenstein.UI.HexyWorld
 {
-    internal class HexyWorldViewModel : ReactiveScreen
+    internal class HexyWorldViewModel : Screen
     {
         private readonly ServotorEmulator servotor;
 
@@ -20,7 +20,7 @@ namespace Hexenstein.UI.HexyWorld
 
             servotor.Update += servotor_Update;
 
-            Visuals = new ReactiveCollection<Visual3D>();
+            Visuals = new ObservableCollection<Visual3D>();
 
             Visuals.Add(new SunLight());
 
@@ -32,6 +32,6 @@ namespace Hexenstein.UI.HexyWorld
             hexy.Update(servotor.Servos);
         }
 
-        public ReactiveCollection<Visual3D> Visuals { get; set; }
+        public ObservableCollection<Visual3D> Visuals { get; set; }
     }
 }

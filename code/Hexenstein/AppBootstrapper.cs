@@ -6,15 +6,7 @@ using Autofac;
 using Caliburn.Micro;
 using Hexenstein.Emulator;
 using Hexenstein.Framework;
-using Hexenstein.Framework.Caliburn;
 using Hexenstein.UI.Shell;
-using NLog.Config;
-using NLog.Targets;
-using ReactiveUI;
-using ReactiveUI.NLog;
-using CMLogManager = Caliburn.Micro.LogManager;
-using LogLevel = NLog.LogLevel;
-using NLogManager = NLog.LogManager;
 
 namespace Hexenstein
 {
@@ -24,24 +16,7 @@ namespace Hexenstein
 
         protected override void Configure()
         {
-            ConfigureLogging();
-
             ConfigureContainer();
-        }
-
-        private void ConfigureLogging()
-        {
-            var config = new LoggingConfiguration();
-            var consoleTarget = new ColoredConsoleTarget();
-            consoleTarget.Layout = "${level:uppercase=true} ${logger}: ${message}${onexception:inner=${newline}${exception:format=tostring}}";
-            config.AddTarget("console", consoleTarget);
-            config.LoggingRules.Add(new LoggingRule("ViewModelBinder", LogLevel.Warn, consoleTarget) { Final = true });
-            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, consoleTarget));
-            NLogManager.Configuration = config;
-
-            CMLogManager.GetLog = type => new CaliburnMicroNLogShim(type);
-
-            RxApp.LoggerFactory = type => new NLogLogger(NLogManager.GetLogger(type.Name));
         }
 
         private void ConfigureContainer()
@@ -67,7 +42,7 @@ namespace Hexenstein
 
             builder.Register<IWindowManager>(c => new WindowManager()).InstancePerLifetimeScope();
 
-            builder.Register<IEventAggregator>(c => new RxEventAggregator()).InstancePerLifetimeScope();
+            builder.Register<IEventAggregator>(c => new EventAggregator()).InstancePerLifetimeScope();
 
             builder.RegisterType<ServotorEmulator>().AsSelf().SingleInstance();
 

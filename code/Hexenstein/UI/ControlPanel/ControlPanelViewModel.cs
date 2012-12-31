@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO.Ports;
+using Caliburn.Micro;
 using Hexenstein.Emulator;
-using Hexenstein.Framework.Reactive;
-using ReactiveUI;
 
 namespace Hexenstein.UI.ControlPanel
 {
-    internal class ControlPanelViewModel : ReactiveScreen
+    internal class ControlPanelViewModel : Screen
     {
         private readonly ServotorEmulator hexy;
 
@@ -14,7 +14,7 @@ namespace Hexenstein.UI.ControlPanel
         {
             this.hexy = hexy;
             string[] portName = SerialPort.GetPortNames();
-            COMPorts = new ReactiveCollection<string>(portName);
+            COMPorts = new ObservableCollection<string>(portName);
             if (portName.Length > 0)
                 SelectedCOMPort = portName[0];
         }
