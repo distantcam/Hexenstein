@@ -10,10 +10,7 @@
 
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">$(MSBuildProjectDirectory)..\..\..\</SolutionDir>
 
-    <SafeBuildNumber>$(BuildNumber)</SafeBuildNumber>
-    <SafeBuildNumber Condition=" '$(SafeBuildNumber)' == '' ">0</SafeBuildNumber>
-
-    <ApplicationVersion>$(CurrentVersion).$(SafeBuildNumber)</ApplicationVersion>
+    <ApplicationVersion>$(CurrentVersion).0</ApplicationVersion>
 
     <BuildDependsOn>
       GenerateCommonAssemblyInfo;
@@ -23,11 +20,9 @@
 
   <Target Name="GenerateCommonAssemblyInfo">
     <PropertyGroup>
-      <SafeBuildNumber>$(BuildNumber)</SafeBuildNumber>
-      <SafeBuildNumber Condition=" '$(SafeBuildNumber)' == '' ">0</SafeBuildNumber>
       <AssemblyConfig Condition=" '$(AssemblyConfig)' != '' ">-$(AssemblyConfig)</AssemblyConfig>
-      <BuildNumber Condition=" '$(AssemblyConfig)' != '' And '$(BuildNumber)' == '0' "></BuildNumber>
-      <BuildNumber Condition=" '$(AssemblyConfig)' == '' And '$(BuildNumber)' != '' ">.$(BuildNumber)</BuildNumber>
+      <BuildNumber Condition=" '$(BuildNumber)' == '0' "></BuildNumber>
+      <BuildNumber Condition=" '$(BuildNumber)' != '' ">+$(BuildNumber)</BuildNumber>
     </PropertyGroup>
 
     <Time>
@@ -40,8 +35,8 @@
       AssemblyCopyright="Copyright © $(Company) $(Year)"
       AssemblyTrademark=""
       AssemblyConfiguration="$(AssemblyConfig)"
-      AssemblyVersion="$(CurrentVersion).$(SafeBuildNumber)"
-      AssemblyFileVersion="$(CurrentVersion).$(SafeBuildNumber)"
+      AssemblyVersion="$(CurrentVersion)"
+      AssemblyFileVersion="$(CurrentVersion)"
       AssemblyInformationalVersion="$(CurrentVersion)$(AssemblyConfig)$(BuildNumber)"
     />
   </Target>
